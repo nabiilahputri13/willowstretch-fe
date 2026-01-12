@@ -6,10 +6,10 @@
         <p class="text-[#a1887f] text-sm">Create your fairy identity</p>
       </div>
 
-      <form @submit.prevent="handleRegister" class="space-y-4">
-        <input v-model="form.username" type="text" placeholder="Fairy Name" class="w-full px-4 py-2 bg-white/80 border border-[#d7ccc8] rounded-full focus:ring-2 focus:ring-[#d7ccc8] outline-none" required />
-        <input v-model="form.email" type="email" placeholder="Email" class="w-full px-4 py-2 bg-white/80 border border-[#d7ccc8] rounded-full focus:ring-2 focus:ring-[#d7ccc8] outline-none" required />
-        <input v-model="form.password" type="password" placeholder="Password" class="w-full px-4 py-2 bg-white/80 border border-[#d7ccc8] rounded-full focus:ring-2 focus:ring-[#d7ccc8] outline-none" required />
+      <form class="space-y-4" @submit.prevent="handleRegister">
+        <input v-model="form.username" type="text" placeholder="Fairy Name" class="w-full px-4 py-2 bg-white/80 border border-[#d7ccc8] rounded-full focus:ring-2 focus:ring-[#d7ccc8] outline-none" required >
+        <input v-model="form.email" type="email" placeholder="Email" class="w-full px-4 py-2 bg-white/80 border border-[#d7ccc8] rounded-full focus:ring-2 focus:ring-[#d7ccc8] outline-none" required >
+        <input v-model="form.password" type="password" placeholder="Password" class="w-full px-4 py-2 bg-white/80 border border-[#d7ccc8] rounded-full focus:ring-2 focus:ring-[#d7ccc8] outline-none" required >
         
         <button 
           :disabled="authStore.loading"

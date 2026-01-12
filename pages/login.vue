@@ -9,7 +9,7 @@
         <p class="text-[#8d6e63] text-sm">Enter the forest to continue your journey</p>
       </div>
 
-      <form @submit.prevent="handleLogin" class="space-y-6">
+      <form class="space-y-6" @submit.prevent="handleLogin">
         <div>
           <label class="block text-[#CA4489] text-sm font-medium mb-1">Email Address</label>
           <input 
@@ -17,7 +17,7 @@
             type="email" 
             class="w-full px-4 py-2 bg-white/80 border border-[#CA4489] rounded-full focus:outline-none focus:ring-2 focus:ring-[#aed581] transition-all"
             placeholder="fairy@willow.stretch"
-          />
+          >
         </div>
 
         <div>
@@ -27,7 +27,7 @@
             type="password" 
             class="w-full px-4 py-2 bg-white/80 border border-[#CA4489] rounded-full focus:outline-none focus:ring-2 focus:ring-[#aed581] transition-all"
             placeholder="••••••••"
-          />
+          >
         </div>
 
         <button 
