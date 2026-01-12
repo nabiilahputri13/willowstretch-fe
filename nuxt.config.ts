@@ -10,7 +10,17 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: 'http://localhost:8000/api/' 
+      apiBase: 'http://localhost:8000/' 
+    }
+  },
+  app: {
+    head: {
+      link: [
+        { 
+          rel: 'stylesheet', 
+          href: 'https://fonts.googleapis.com/css2?family=Irish+Grover&family=Quicksand:wght@300;400;500;600&family=Lora:ital,wght@0,400;1,500&display=swap'
+        }
+      ]
     }
   },
 })
