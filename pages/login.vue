@@ -64,7 +64,7 @@ const handleLogin = async () => {
 
   if (result.success) {
     alert('✨ Magic successful! Welcome back.')
-    router.push('/') // Pindah ke dashboard/beranda
+    router.push('/home') // Pindah ke dashboard/beranda
   } else {
     alert('🌿 The forest denies your entry: ' + (result.error?.detail || 'Invalid credentials'))
   }
