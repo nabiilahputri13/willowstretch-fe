@@ -1,18 +1,21 @@
 import { defineStore } from 'pinia'
 
-// Kita definisikan interface agar ESLint tidak marah karena 'any'
 interface User {
   id: number
   username: string
   email: string
+  is_admin: boolean 
 }
 
 interface AuthResponse {
   access?: string
-  token?: string
   user?: User
   message?: string
   detail?: string
+}
+
+interface FetchError {
+  data: Record<string, unknown>
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -21,6 +24,11 @@ export const useAuthStore = defineStore('auth', {
     token: null as string | null,
     loading: false,
   }),
+
+  getters: {
+    isAdmin: (state) => state.user?.is_admin || false,
+    isAuthenticated: (state) => !!state.token,
+  },
 
   actions: {
     async register(formData: Record<string, string | unknown>) {
@@ -33,10 +41,9 @@ export const useAuthStore = defineStore('auth', {
           body: formData,
         })
         return { success: true, data }
-      } catch (error: unknown) {
-        // Menangani error dengan tipe yang aman
-        const fetchError = error as { data: AuthResponse }
-        return { success: false, error: fetchError.data }
+      } catch (err) {
+        const error = err as FetchError
+        return { success: false, error: error.data }
       } finally {
         this.loading = false
       }
@@ -52,21 +59,59 @@ export const useAuthStore = defineStore('auth', {
           body: credentials,
         })
 
-        // Simpan token (access dari SimpleJWT atau token dari DRF)
-        this.token = response.access || response.token || null
+        // 1. Simpan Token
+        this.token = response.access || null
         
+        // 2. Simpan User
+        if (response.user) {
+          this.user = response.user
+        }
+        
+        // 3. Simpan token ke cookie 'access_token'
         if (this.token) {
-          const tokenCookie = useCookie('auth_token')
+          const tokenCookie = useCookie('access_token', {
+            maxAge: 60 * 60, // 1 Jam
+            path: '/'
+          })
           tokenCookie.value = this.token
         }
 
         return { success: true }
-      } catch (error: unknown) {
-        const fetchError = error as { data: AuthResponse }
-        return { success: false, error: fetchError.data }
+      } catch (err) {
+        const error = err as FetchError
+        return { success: false, error: error.data }
       } finally {
         this.loading = false
       }
     },
+
+    async fetchUser() {
+      const config = useRuntimeConfig()
+      // Ambil dari cookie 'access_token'
+      const tokenCookie = useCookie('access_token')
+      
+      const token = this.token || tokenCookie.value
+      
+      if (!token) return
+
+      this.token = token
+
+      try {
+        const userData = await $fetch<User>(`${config.public.apiBase}/me/`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        this.user = userData
+      } catch {
+        this.logout()
+      }
+    },
+
+    logout() {
+      this.token = null
+      this.user = null
+      // Hapus cookie 'access_token'
+      const tokenCookie = useCookie('access_token')
+      tokenCookie.value = null
+    }
   },
 })
