@@ -1,55 +1,8 @@
-<template>
-  <div class="min-h-screen flex items-center justify-center bg-[#FFFCDE] font-['Quicksand'] p-4">
-    <div class="absolute top-10 left-10 text-4xl opacity-20 select-none">🌿</div>
-    <div class="absolute bottom-10 right-10 text-4xl opacity-20 select-none">🦋</div>
-
-    <div class="w-full max-w-md bg-[#F7CED0] border border-[#CA4489] p-8 rounded-[2rem] shadow-xl">
-      <div class="text-center mb-8">
-        <h1 class="font-['Irish_Grover'] text-3xl text-[#CA4489] mb-2">Welcome Back!</h1>
-        <p class="text-[#8d6e63] text-sm">Enter the forest to continue your journey</p>
-      </div>
-
-      <form class="space-y-6" @submit.prevent="handleLogin">
-        <div>
-          <label class="block text-[#CA4489] text-sm font-medium mb-1">Email Address</label>
-          <input 
-            v-model="email" 
-            type="email" 
-            class="w-full px-4 py-2 bg-white/80 border border-[#CA4489] rounded-full focus:outline-none focus:ring-2 focus:ring-[#aed581] transition-all"
-            placeholder="fairy@willow.stretch"
-          >
-        </div>
-
-        <div>
-          <label class="block text-[#CA4489] text-sm font-medium mb-1">Password</label>
-          <input 
-            v-model="password" 
-            type="password" 
-            class="w-full px-4 py-2 bg-white/80 border border-[#CA4489] rounded-full focus:outline-none focus:ring-2 focus:ring-[#aed581] transition-all"
-            placeholder="••••••••"
-          >
-        </div>
-
-        <button 
-  :disabled="authStore.loading"
-  type="submit" 
-  class="w-full py-3 bg-[#CA4489] hover:bg-[#7cb342] text-white font-medium rounded-full shadow-lg transform transition active:scale-95 disabled:bg-gray-300"
->
-  {{ authStore.loading ? 'Casting Spell... ✨' : 'Spread Wings & Login' }}
-</button>
-      </form>
-
-      <p class="mt-6 text-center text-sm text-[#8d6e63]">
-        New traveler? 
-        <NuxtLink to="/register" class="text-[#556b2f] font-bold hover:underline">Seek a new path</NuxtLink>
-      </p>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth'
-
+definePageMeta({
+  layout: 'blank'
+})
 const authStore = useAuthStore()
 const router = useRouter()
 
@@ -57,16 +10,80 @@ const email = ref('')
 const password = ref('')
 
 const handleLogin = async () => {
-  const result = await authStore.login({
-    email: email.value, // Django biasanya pakai username, sesuaikan dengan backend-mu
+  if (!email.value || !password.value) {
+    alert('Mohon isi email dan password.')
+    return
+  }
+
+  // FIX: Kita tambahkan casting 'as any' pada result untuk menghindari error TypeScript
+  // karena TS kadang bingung dengan return type dari Pinia action yang manual
+  const result: any = await authStore.login({
+    email: email.value,
     password: password.value
   })
 
   if (result.success) {
-    alert('✨ Magic successful! Welcome back.')
-    router.push('/home') // Pindah ke dashboard/beranda
+    router.push('/home') 
   } else {
-    alert('🌿 The forest denies your entry: ' + (result.error?.detail || 'Invalid credentials'))
+    // FIX: Akses langsung ke result.error.error
+    // Karena di store kamu return: { error: error.data }
+    // Jadi result.error ISInya adalah data error dari backend (misal: { "error": "Invalid creds" })
+    const msg = result.error?.error || 'Login gagal. Periksa kembali email dan password Anda.'
+    alert(msg)
   }
 }
 </script>
+
+<template>
+  <div class="min-h-screen flex items-center justify-center bg-pink-50 font-sans p-4">
+    
+    <div class="w-full max-w-md bg-white border border-pink-100 p-8 md:p-10 rounded-3xl shadow-lg">
+      
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-extrabold text-pink-600 mb-2">Welcome Back!</h1>
+        <p class="text-gray-500">Silakan login untuk melanjutkan.</p>
+      </div>
+
+      <form class="space-y-6" @submit.prevent="handleLogin">
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+          <input 
+            v-model="email" 
+            type="email" 
+            required
+            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+            placeholder="nama@email.com"
+          >
+        </div>
+
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+          <input 
+            v-model="password" 
+            type="password" 
+            required
+            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+            placeholder="••••••••"
+          >
+        </div>
+
+        <button 
+          :disabled="authStore.loading"
+          type="submit" 
+          class="w-full py-3.5 bg-pink-500 hover:bg-pink-600 text-white font-bold text-lg rounded-xl shadow-md transform transition active:scale-[0.98] disabled:bg-pink-300 disabled:cursor-not-allowed flex items-center justify-center"
+        >
+          <svg v-if="authStore.loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {{ authStore.loading ? 'Memproses...' : 'Login' }}
+        </button>
+      </form>
+
+      <p class="mt-8 text-center text-sm text-gray-500">
+        Belum punya akun? 
+        <NuxtLink to="/register" class="text-pink-600 font-bold hover:text-pink-700 hover:underline transition">Daftar sekarang</NuxtLink>
+      </p>
+    </div>
+  </div>
+</template>
