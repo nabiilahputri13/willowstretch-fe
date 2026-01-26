@@ -100,7 +100,7 @@ const navLinks = [
 ]
 
 const adminLinks = [
-  { name: 'Manage Pricing', path: '/admin/pricing' },
+  { name: 'Manage Pricing', path: '/admin/manage-pricing' },
   { name: 'Manage Classes', path: '/admin/manage-classes' },
 ]
 
