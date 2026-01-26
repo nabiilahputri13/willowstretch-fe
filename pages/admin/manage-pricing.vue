@@ -248,7 +248,7 @@ onMounted(() => {
                   rows="2" 
                   placeholder="Deskripsi singkat..." 
                   class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-pink-300 outline-none resize-none"
-                ></textarea>
+                />
               </div>
 
               <div class="bg-pink-50 p-4 rounded-xl space-y-4">
@@ -289,8 +289,8 @@ onMounted(() => {
       </p>
     </div>
                     <div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" v-model="form.is_active" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300" :class="form.is_active ? 'right-0 border-green-400' : 'left-0 border-gray-300'"/>
-                        <label class="toggle-label block overflow-hidden h-6 rounded-full cursor-pointer" :class="form.is_active ? 'bg-green-400' : 'bg-gray-300'"></label>
+                        <input v-model="form.is_active" type="checkbox" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300" :class="form.is_active ? 'right-0 border-green-400' : 'left-0 border-gray-300'">
+                        <label class="toggle-label block overflow-hidden h-6 rounded-full cursor-pointer" :class="form.is_active ? 'bg-green-400' : 'bg-gray-300'"/>
                     </div>
                   </label>
               </div>

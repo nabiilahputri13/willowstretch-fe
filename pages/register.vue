@@ -5,6 +5,11 @@ definePageMeta({
   layout: 'blank'
 })
 
+interface RegisterResult {
+  success: boolean
+  error?: Record<string, string | string[]>
+}
+
 const authStore = useAuthStore()
 const router = useRouter()
 
@@ -20,8 +25,7 @@ const handleRegister = async () => {
     return
   }
 
-  // Cast 'any' agar TypeScript tidak komplain soal tipe return
-  const result: any = await authStore.register(form)
+  const result = await authStore.register(form) as RegisterResult
   
   if (result.success) {
     alert('Pendaftaran Berhasil! Silakan login dengan akun baru Anda.')
@@ -29,19 +33,15 @@ const handleRegister = async () => {
   } else {
     let errorMsg = 'Terjadi kesalahan saat mendaftar.'
     
-    // FIX ERROR: "Type 'undefined' cannot be used as an index type"
-    // Kita pastikan result.error itu object dan punya key
     if (result.error && typeof result.error === 'object') {
         const keys = Object.keys(result.error)
-        const firstKey = keys[0] // Simpan ke variabel dulu
+        const firstKey = keys[0]
 
-        // Cek apakah firstKey benar-benar ada (tidak undefined)
         if (firstKey) {
-            // TypeScript sekarang tahu 'firstKey' pasti string
             errorMsg = `${firstKey}: ${result.error[firstKey]}`
         }
-    } else if (result.error) {
-        // Fallback kalau error cuma string biasa
+    } 
+    else if (result.error) {
         errorMsg = String(result.error)
     }
     
@@ -101,8 +101,8 @@ const handleRegister = async () => {
           class="w-full py-3.5 bg-pink-500 hover:bg-pink-600 text-white font-bold text-lg rounded-xl shadow-md transform transition active:scale-[0.98] disabled:bg-pink-300 disabled:cursor-not-allowed flex items-center justify-center mt-6"
         >
            <svg v-if="authStore.loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
           </svg>
           {{ authStore.loading ? 'Mendaftar...' : 'Buat Akun' }}
         </button>
