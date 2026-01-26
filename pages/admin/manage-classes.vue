@@ -11,7 +11,6 @@ interface YogaClass {
   room: string
 }
 
-// Interface untuk menangani tipe Error dari Fetch
 interface FetchError {
   data?: {
     error?: string
@@ -27,6 +26,9 @@ const showModal = ref(false)
 const isEditing = ref(false)
 const errorMessage = ref('')
 
+// State untuk membatasi tanggal minimum (biar gak bisa pilih masa lalu)
+const minDateTime = ref('')
+
 const form = ref<YogaClass>({
   name: '',
   instructor_name: '',
@@ -36,6 +38,19 @@ const form = ref<YogaClass>({
   room: ''
 })
 
+// --- HELPER FUNCTION: Timezone Fix ---
+// Mengubah Date Object/String UTC menjadi format string untuk input datetime-local (YYYY-MM-DDTHH:mm)
+// Sesuai dengan jam lokal user (WIB/WITA/WIT)
+const getLocalISOString = (dateInput?: string | Date) => {
+  const date = dateInput ? new Date(dateInput) : new Date()
+  
+  // getTimezoneOffset mengembalikan selisih dalam menit (WIB = -420)
+  // Kita kurangi waktu UTC dengan offset ini agar saat toISOString dipanggil, angkanya sesuai jam lokal
+  const offset = date.getTimezoneOffset() * 60000 
+  return new Date(date.getTime() - offset).toISOString().slice(0, 16)
+}
+
+// --- FETCH DATA ---
 const fetchClasses = async () => {
   loading.value = true
   try {
@@ -50,16 +65,23 @@ const fetchClasses = async () => {
   }
 }
 
+// --- MODAL HANDLERS ---
 const openAddModal = () => {
   isEditing.value = false
   errorMessage.value = ''
+  
+  // Set batas minimum ke waktu sekarang
+  minDateTime.value = getLocalISOString()
+
   form.value = {
     name: '',
     instructor_name: '',
-    start_at: '',
+    // Default waktu: Sekarang
+    start_at: minDateTime.value,
     duration_minutes: 60,
     max_capacity: 10,
-    room: ''
+    // Default room kosong string biar placeholder muncul
+    room: '' 
   }
   showModal.value = true
 }
@@ -67,11 +89,18 @@ const openAddModal = () => {
 const openEditModal = (item: YogaClass) => {
   isEditing.value = true
   errorMessage.value = ''
-  const formattedDate = item.start_at ? item.start_at.slice(0, 16) : '' 
-  form.value = { ...item, start_at: formattedDate }
+  
+  // Update minDateTime biar validasinya fresh
+  minDateTime.value = getLocalISOString()
+
+  // Konversi waktu dari server (UTC) ke format input lokal
+  const localTime = item.start_at ? getLocalISOString(item.start_at) : ''
+
+  form.value = { ...item, start_at: localTime }
   showModal.value = true
 }
 
+// --- CRUD ACTIONS ---
 const saveClass = async () => {
   loading.value = true
   errorMessage.value = ''
@@ -91,7 +120,6 @@ const saveClass = async () => {
     showModal.value = false
     fetchClasses()
   } catch (err: unknown) {
-    // FIX LINT: Menggunakan 'unknown' dan casting manual agar aman dari 'no-explicit-any'
     const error = err as FetchError
     errorMessage.value = error.data?.error || 'Terjadi kesalahan saat menyimpan.'
   } finally {
@@ -108,7 +136,6 @@ const deleteClass = async (id: number) => {
     })
     fetchClasses()
   } catch {
-    // FIX LINT: Menghapus (error) karena tidak dipakai
     alert('Gagal menghapus kelas.')
   }
 }
@@ -128,7 +155,7 @@ onMounted(() => {
   <div class="min-h-screen bg-pink-50 p-4 md:p-8 font-sans pb-20">
     <div class="max-w-6xl mx-auto">
       
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 mt-16">
         <div>
           <h1 class="text-2xl md:text-3xl font-bold text-pink-600">Manage Classes</h1>
           <p class="text-sm md:text-base text-gray-500">Atur jadwal yoga studio di sini</p>
@@ -203,7 +230,7 @@ onMounted(() => {
               </div>
               <div class="flex items-center gap-2">
                 <span class="text-lg">👥</span> 
-                <span>Max: {{ item.max_capacity }} orang</span>
+                <span>Max Capacity: {{ item.max_capacity }} orang</span>
               </div>
             </div>
 
@@ -230,7 +257,7 @@ onMounted(() => {
         <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh]">
           
           <div class="p-6 border-b border-gray-100">
-            <h2 class="text-xl md:text-2xl font-bold text-gray-800">{{ isEditing ? 'Edit Kelas' : 'Buat Kelas Baru' }}</h2>
+            <h2 class="text-xl md:text-2xl font-bold text-pink-600">{{ isEditing ? 'Edit Kelas' : 'Buat Kelas Baru' }}</h2>
           </div>
 
           <div class="p-6 overflow-y-auto">
@@ -238,18 +265,24 @@ onMounted(() => {
               
               <div>
                 <label class="block text-sm font-medium mb-1 text-gray-700">Nama Kelas</label>
-                <input v-model="form.name" type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition">
+                <input v-model="form.name" type="text" required placeholder="Vinyasa Flow" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition">
               </div>
               
               <div>
                 <label class="block text-sm font-medium mb-1 text-gray-700">Instruktur</label>
-                <input v-model="form.instructor_name" type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition">
+                <input v-model="form.instructor_name" type="text" required placeholder="Nama Instruktur" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition">
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-sm font-medium mb-1 text-gray-700">Waktu Mulai</label>
-                  <input v-model="form.start_at" type="datetime-local" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition">
+                  <input 
+                    v-model="form.start_at" 
+                    type="datetime-local" 
+                    :min="minDateTime"
+                    required 
+                    class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition"
+                  >
                 </div>
                 <div>
                   <label class="block text-sm font-medium mb-1 text-gray-700">Durasi (Menit)</label>
@@ -261,7 +294,13 @@ onMounted(() => {
                 <div>
                   <label class="block text-sm font-medium mb-1 text-gray-700">Ruangan</label>
                   <div class="relative">
-                    <select v-model="form.room" required class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition">
+                    <select 
+                      v-model="form.room" 
+                      required
+                      class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition"
+                      :class="{'text-gray-400': form.room === ''}"
+                    >
+                      <option value="" disabled selected>Pilih ruangan</option>
                       <option value="Sun Room">Sun Room</option>
                       <option value="Moon Studio">Moon Studio</option>
                       <option value="Garden Area">Garden Area</option>
