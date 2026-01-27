@@ -106,7 +106,8 @@ onMounted(() => {
           :key="pkg.id" 
           class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-pink-100 flex flex-col relative overflow-hidden group h-full"
         >
-          <div class="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110"/>
+          <!-- <div class="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110"/> -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-400 to-orange-300 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110 opacity-30"/>
 
           <div class="relative z-10 flex-1">
             <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ pkg.name }}</h3>

@@ -119,9 +119,9 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen bg-pink-50 p-4 md:p-8 font-sans pb-20">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-6xl mx-auto">
       
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 mt-16">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 mt-24">
         <div>
           <h1 class="text-2xl md:text-3xl font-bold text-pink-600">Manage Pricing</h1>
           <p class="text-sm md:text-base text-gray-500">Atur katalog paket harga</p>
@@ -275,19 +275,19 @@ onMounted(() => {
               <div class="border-t border-gray-100 pt-4">
                   <label class="flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors" :class="form.is_active ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'">
                     <div class="flex-1 pr-4">
-      <span class="block text-sm font-bold mb-1" :class="form.is_active ? 'text-green-700' : 'text-gray-600'">
-        Status: {{ form.is_active ? 'AKTIF (Tayang)' : 'NON-AKTIF (Disembunyikan)' }}
-      </span>
-      <p class="text-xs text-gray-500 leading-relaxed">
-        {{ form.is_active 
-          ? 'Paket ini akan muncul di halaman pembelian dan bisa dibeli oleh semua user.' 
-          : 'Paket tidak akan muncul di halaman pembelian baru.' 
-        }}
-      </p>
-      <p class="text-[11px] text-pink-600 font-medium mt-1 italic">
-        *User yang sudah membeli tetap bisa memakai kreditnya sampai masa aktif paket habis.
-      </p>
-    </div>
+                      <span class="block text-sm font-bold mb-1" :class="form.is_active ? 'text-green-700' : 'text-gray-600'">
+                        Status: {{ form.is_active ? 'AKTIF (Tayang)' : 'NON-AKTIF (Disembunyikan)' }}
+                      </span>
+                      <p class="text-xs text-gray-500 leading-relaxed">
+                        {{ form.is_active 
+                          ? 'Paket ini akan muncul di halaman pembelian dan bisa dibeli oleh semua user.' 
+                          : 'Paket tidak akan muncul di halaman pembelian baru.' 
+                        }}
+                      </p>
+                      <p class="text-[11px] text-pink-600 font-medium mt-1 italic">
+                        *User yang sudah membeli tetap bisa memakai kreditnya sampai masa aktif paket habis.
+                      </p>
+                    </div>
                     <div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in">
                         <input v-model="form.is_active" type="checkbox" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300" :class="form.is_active ? 'right-0 border-green-400' : 'left-0 border-gray-300'">
                         <label class="toggle-label block overflow-hidden h-6 rounded-full cursor-pointer" :class="form.is_active ? 'bg-green-400' : 'bg-gray-300'"/>
@@ -305,8 +305,8 @@ onMounted(() => {
               </div>
             </form>
           </div>
-          </div>
-          </div>
+        </div>
+      </div>
 
     </div>
   </div>

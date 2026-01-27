@@ -217,7 +217,7 @@ const isDateDisabled = (date: Date) => isBefore(date, today)
               ‹
             </button>
 
-            <div class="flex-1 overflow-x-auto scrollbar-hide">
+            <div class="flex-1 overflow-x-auto scrollbar-hide py-2">
               <div class="flex gap-3 min-w-max justify-center">
                 <button
                   v-for="date in weekDates"
@@ -225,7 +225,7 @@ const isDateDisabled = (date: Date) => isBefore(date, today)
                   class="flex flex-col items-center justify-center w-16 h-20 rounded-2xl transition-all duration-300 border-2"
                   :class="isSameDay(date, selectedDate) 
                     ? 'bg-pink-500 border-pink-500 text-white shadow-md transform -translate-y-1' 
-                    : 'bg-white border-transparent text-gray-400 hover:bg-pink-50 hover:text-pink-500'"
+                    : 'bg-white border-transparent text-gray-600 hover:bg-pink-50 hover:text-pink-500'"
                   @click="selectedDate = date"
                 >
                   <span class="text-[10px] font-bold uppercase tracking-wider mb-1">
@@ -295,7 +295,8 @@ const isDateDisabled = (date: Date) => isBefore(date, today)
           :key="cls.id"
           class="bg-white rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-pink-100 relative overflow-hidden group"
         >
-          <div class="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110 opacity-50 md:opacity-100"/>
+          <!-- <div class="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110 opacity-50 md:opacity-100"/> -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-400 to-orange-300 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110 opacity-30"/>
 
           <div class="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
             <div class="flex gap-6 items-start flex-1">
@@ -328,7 +329,7 @@ const isDateDisabled = (date: Date) => isBefore(date, today)
             <div class="w-full md:w-auto flex items-center justify-between md:flex-col md:items-end gap-3 mt-2 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 border-pink-50">
               <div class="text-left md:text-right">
                  <div class="text-xs font-bold text-gray-400 uppercase">Availability</div>
-                 <div class="font-bold text-sm" :class="cls.is_full ? 'text-red-500' : 'text-green-500'">
+                 <div class="font-bold text-sm" :class="cls.is_full ? 'text-red-500' : 'text-emerald-500'">
                     {{ cls.is_full ? 'Full' : `${cls.capacity - cls.booked_count} Slots Left` }}
                  </div>
               </div>
