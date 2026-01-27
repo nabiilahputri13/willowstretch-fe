@@ -181,7 +181,7 @@ const isDateDisabled = (date: Date) => isBefore(date, today)
       
       <div class="flex flex-col md:flex-row justify-between items-center mb-6 mt-24 gap-6">
         <div class="text-center md:text-left">
-          <h1 class="text-4xl font-bold text-pink-600 mb-2">Schedule</h1>
+          <h1 class="text-4xl font-bold font-black text-gray-800 tracking-tight mb-2">Schedule<span class="text-pink-500">.</span></h1>
           <p class="text-gray-500">
             {{ format(selectedDate, 'EEEE, d MMMM yyyy') }}
           </p>
@@ -329,9 +329,23 @@ const isDateDisabled = (date: Date) => isBefore(date, today)
             <div class="w-full md:w-auto flex items-center justify-between md:flex-col md:items-end gap-3 mt-2 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 border-pink-50">
               <div class="text-left md:text-right">
                  <div class="text-xs font-bold text-gray-400 uppercase">Availability</div>
-                 <div class="font-bold text-sm" :class="cls.is_full ? 'text-red-500' : 'text-emerald-500'">
-                    {{ cls.is_full ? 'Full' : `${cls.capacity - cls.booked_count} Slots Left` }}
-                 </div>
+                 <div class="flex items-center">
+  <div 
+    v-if="!cls.is_full"
+    class="px-3 py-1 rounded-full bg-green-50 border border-green-100 text-green-600 text-[10px] font-black  tracking-wider flex items-center gap-1.5"
+  >
+    <span class="w-1.5 h-1.5 rounded-full bg-green-500"/>
+    {{ cls.capacity - cls.booked_count }} Slots Left
+  </div>
+
+  <div 
+    v-else
+    class="px-3 py-1 rounded-full bg-red-50 border border-red-100 text-red-600 text-[10px] font-black  tracking-wider flex items-center gap-1.5"
+  >
+    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"/>
+    Class Full
+  </div>
+</div>
               </div>
               <button
                 :disabled="cls.is_full || bookingLoadingId === cls.id"

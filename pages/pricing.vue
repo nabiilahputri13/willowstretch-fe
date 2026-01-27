@@ -38,6 +38,10 @@ const fetchPackages = async () => {
   }
 }
 
+const sortedPackages = computed(() => {
+  return [...packages.value].sort((a, b) => a.price - b.price)
+})
+
 // --- ACTIONS ---
 const handleBuy = async (pkg: PricingPackage) => {
   // 1. Cek Login: Kalau belum, langsung lempar ke Login
@@ -85,7 +89,7 @@ onMounted(() => {
     <div class="max-w-6xl mx-auto">
 
       <div class="text-center mb-16 mt-24">
-        <h1 class="text-4xl md:text-5xl font-bold text-pink-600 mb-4">Invest in Your Wellness</h1>
+        <h1 class="text-4xl md:text-5xl font-black text-gray-800 tracking-tight mb-4 pt-4">Invest in Your Wellness<span class="text-pink-500">.</span></h1>
         <p class="text-gray-500 max-w-2xl mx-auto text-lg">
           Pilih paket yang sesuai dengan kebutuhan latihanmu. Fleksibel, tanpa komitmen.
         </p>
@@ -95,14 +99,14 @@ onMounted(() => {
         <div v-for="i in 3" :key="i" class="h-96 bg-white rounded-3xl animate-pulse shadow-sm"/>
       </div>
 
-      <div v-else-if="packages.length === 0" class="text-center py-20">
+      <div v-else-if="sortedPackages.length === 0" class="text-center py-20">
         <p class="text-gray-400 text-lg">Belum ada paket yang tersedia saat ini.</p>
       </div>
 
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
         
         <div 
-          v-for="pkg in packages" 
+          v-for="pkg in sortedPackages" 
           :key="pkg.id" 
           class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-pink-100 flex flex-col relative overflow-hidden group h-full"
         >
@@ -129,7 +133,7 @@ onMounted(() => {
               </li>
               <li class="flex items-center gap-3 text-gray-600">
                 <span class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-sm font-bold">✓</span>
-                <span>Akses semua studio</span>
+                <span>Akses semua kelas</span>
               </li>
               <li class="flex items-center gap-3 text-gray-600">
                 <span class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-sm font-bold">✓</span>
@@ -149,7 +153,7 @@ onMounted(() => {
             </button>
             
             <p v-if="!authStore.isAuthenticated" class="text-center text-xs text-gray-400 mt-3">
-              *Login diperlukan untuk membeli
+              *Login untuk membeli
             </p>
           </div>
         </div>
