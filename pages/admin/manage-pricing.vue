@@ -112,6 +112,10 @@ const formatRupiah = (price: number) => {
   }).format(price)
 }
 
+const sortedPackages = computed(() => {
+  return [...packages.value].sort((a, b) => a.price - b.price)
+})
+
 onMounted(() => {
   fetchPackages()
 })
@@ -119,11 +123,11 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen bg-pink-50 p-4 md:p-8 font-sans pb-20">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-6xl mx-auto">
       
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 mt-16">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 mt-24">
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-pink-600">Manage Pricing</h1>
+          <h1 class="text-2xl md:text-3xl font-bold ont-black text-gray-800 tracking-tight">Manage Pricing<span class="text-pink-500">.</span></h1>
           <p class="text-sm md:text-base text-gray-500">Atur katalog paket harga</p>
         </div>
         <button 
@@ -151,7 +155,7 @@ onMounted(() => {
               </tr>
             </thead>
             <tbody class="divide-y divide-pink-50">
-              <tr v-for="item in packages" :key="item.id" class="hover:bg-pink-50 transition">
+              <tr v-for="item in sortedPackages" :key="item.id" class="hover:bg-pink-50 transition">
                 <td class="p-4 font-medium text-gray-800 w-1/5">{{ item.name }}</td>
                 <td class="p-4 text-gray-500 text-sm w-1/4">
                   <span class="block whitespace-normal break-words">{{ item.description || '-' }}</span>
@@ -175,7 +179,7 @@ onMounted(() => {
                   <button class="text-blue-500 hover:text-blue-700 text-sm font-semibold" @click="openEditModal(item)">Edit</button>
                 </td>
               </tr>
-              <tr v-if="packages.length === 0">
+              <tr v-if="sortedPackages.length === 0">
                 <td colspan="6" class="p-8 text-center text-gray-400">Belum ada paket harga.</td>
               </tr>
             </tbody>
@@ -183,11 +187,11 @@ onMounted(() => {
         </div>
 
         <div class="md:hidden space-y-4">
-          <div v-if="packages.length === 0" class="text-center text-gray-400 py-8 bg-white rounded-xl">
+          <div v-if="sortedPackages.length === 0" class="text-center text-gray-400 py-8 bg-white rounded-xl">
             Belum ada paket harga.
           </div>
 
-          <div v-for="item in packages" :key="item.id" class="bg-white p-5 rounded-xl shadow-sm border border-pink-100 relative overflow-hidden">
+          <div v-for="item in sortedPackages" :key="item.id" class="bg-white p-5 rounded-xl shadow-sm border border-pink-100 relative overflow-hidden">
             <div v-if="!item.is_active" class="absolute top-0 right-0 bg-red-100 text-red-600 text-xs px-3 py-1 rounded-bl-lg font-bold">
               Non-aktif
             </div>
@@ -275,19 +279,19 @@ onMounted(() => {
               <div class="border-t border-gray-100 pt-4">
                   <label class="flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors" :class="form.is_active ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'">
                     <div class="flex-1 pr-4">
-      <span class="block text-sm font-bold mb-1" :class="form.is_active ? 'text-green-700' : 'text-gray-600'">
-        Status: {{ form.is_active ? 'AKTIF (Tayang)' : 'NON-AKTIF (Disembunyikan)' }}
-      </span>
-      <p class="text-xs text-gray-500 leading-relaxed">
-        {{ form.is_active 
-          ? 'Paket ini akan muncul di halaman pembelian dan bisa dibeli oleh semua user.' 
-          : 'Paket tidak akan muncul di halaman pembelian baru.' 
-        }}
-      </p>
-      <p class="text-[11px] text-pink-600 font-medium mt-1 italic">
-        *User yang sudah membeli tetap bisa memakai kreditnya sampai masa aktif paket habis.
-      </p>
-    </div>
+                      <span class="block text-sm font-bold mb-1" :class="form.is_active ? 'text-green-700' : 'text-gray-600'">
+                        Status: {{ form.is_active ? 'AKTIF (Tayang)' : 'NON-AKTIF (Disembunyikan)' }}
+                      </span>
+                      <p class="text-xs text-gray-500 leading-relaxed">
+                        {{ form.is_active 
+                          ? 'Paket ini akan muncul di halaman pembelian dan bisa dibeli oleh semua user.' 
+                          : 'Paket tidak akan muncul di halaman pembelian baru.' 
+                        }}
+                      </p>
+                      <p class="text-[11px] text-pink-600 font-medium mt-1 italic">
+                        *User yang sudah membeli tetap bisa memakai kreditnya sampai masa aktif paket habis.
+                      </p>
+                    </div>
                     <div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in">
                         <input v-model="form.is_active" type="checkbox" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300" :class="form.is_active ? 'right-0 border-green-400' : 'left-0 border-gray-300'">
                         <label class="toggle-label block overflow-hidden h-6 rounded-full cursor-pointer" :class="form.is_active ? 'bg-green-400' : 'bg-gray-300'"/>
@@ -305,8 +309,8 @@ onMounted(() => {
               </div>
             </form>
           </div>
-          </div>
-          </div>
+        </div>
+      </div>
 
     </div>
   </div>

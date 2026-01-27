@@ -155,10 +155,10 @@ onMounted(() => {
   <div class="min-h-screen bg-pink-50 p-4 md:p-8 font-sans pb-20">
     <div class="max-w-6xl mx-auto">
       
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 mt-16">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 mt-24">
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-pink-600">Manage Classes</h1>
-          <p class="text-sm md:text-base text-gray-500">Atur jadwal yoga studio di sini</p>
+          <h1 class="text-2xl md:text-3xl font-bold font-black text-gray-800 tracking-tight">Manage Classes<span class="text-pink-500">.</span></h1>
+          <p class="text-sm md:text-base text-gray-500">Atur jadwal yoga di sini</p>
         </div>
         <button 
           class="w-full md:w-auto bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full shadow-md transition font-medium flex items-center justify-center gap-2"
@@ -270,7 +270,7 @@ onMounted(() => {
               
               <div>
                 <label class="block text-sm font-medium mb-1 text-gray-700">Instruktur</label>
-                <input v-model="form.instructor_name" type="text" required placeholder="Nama Instruktur" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition">
+                <input v-model="form.instructor_name" type="text" required placeholder="Nabiilah Putri Safa" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition">
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
