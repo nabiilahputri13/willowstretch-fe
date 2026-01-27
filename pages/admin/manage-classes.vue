@@ -157,7 +157,7 @@ onMounted(() => {
       
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 mt-24">
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-pink-600">Manage Classes</h1>
+          <h1 class="text-2xl md:text-3xl font-bold font-black text-gray-800 tracking-tight">Manage Classes<span class="text-pink-500">.</span></h1>
           <p class="text-sm md:text-base text-gray-500">Atur jadwal yoga di sini</p>
         </div>
         <button 

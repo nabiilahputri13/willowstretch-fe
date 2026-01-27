@@ -112,6 +112,10 @@ const formatRupiah = (price: number) => {
   }).format(price)
 }
 
+const sortedPackages = computed(() => {
+  return [...packages.value].sort((a, b) => a.price - b.price)
+})
+
 onMounted(() => {
   fetchPackages()
 })
@@ -123,7 +127,7 @@ onMounted(() => {
       
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 mt-24">
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-pink-600">Manage Pricing</h1>
+          <h1 class="text-2xl md:text-3xl font-bold ont-black text-gray-800 tracking-tight">Manage Pricing<span class="text-pink-500">.</span></h1>
           <p class="text-sm md:text-base text-gray-500">Atur katalog paket harga</p>
         </div>
         <button 
@@ -151,7 +155,7 @@ onMounted(() => {
               </tr>
             </thead>
             <tbody class="divide-y divide-pink-50">
-              <tr v-for="item in packages" :key="item.id" class="hover:bg-pink-50 transition">
+              <tr v-for="item in sortedPackages" :key="item.id" class="hover:bg-pink-50 transition">
                 <td class="p-4 font-medium text-gray-800 w-1/5">{{ item.name }}</td>
                 <td class="p-4 text-gray-500 text-sm w-1/4">
                   <span class="block whitespace-normal break-words">{{ item.description || '-' }}</span>
@@ -175,7 +179,7 @@ onMounted(() => {
                   <button class="text-blue-500 hover:text-blue-700 text-sm font-semibold" @click="openEditModal(item)">Edit</button>
                 </td>
               </tr>
-              <tr v-if="packages.length === 0">
+              <tr v-if="sortedPackages.length === 0">
                 <td colspan="6" class="p-8 text-center text-gray-400">Belum ada paket harga.</td>
               </tr>
             </tbody>
@@ -183,11 +187,11 @@ onMounted(() => {
         </div>
 
         <div class="md:hidden space-y-4">
-          <div v-if="packages.length === 0" class="text-center text-gray-400 py-8 bg-white rounded-xl">
+          <div v-if="sortedPackages.length === 0" class="text-center text-gray-400 py-8 bg-white rounded-xl">
             Belum ada paket harga.
           </div>
 
-          <div v-for="item in packages" :key="item.id" class="bg-white p-5 rounded-xl shadow-sm border border-pink-100 relative overflow-hidden">
+          <div v-for="item in sortedPackages" :key="item.id" class="bg-white p-5 rounded-xl shadow-sm border border-pink-100 relative overflow-hidden">
             <div v-if="!item.is_active" class="absolute top-0 right-0 bg-red-100 text-red-600 text-xs px-3 py-1 rounded-bl-lg font-bold">
               Non-aktif
             </div>
