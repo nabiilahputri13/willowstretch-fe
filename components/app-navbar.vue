@@ -34,6 +34,10 @@ const icons = {
     pricing: 'M2 7a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7zm10 2a3 3 0 100 6 3 3 0 000-6zM2 10h3m14 0h3',
   // classes: 'M12 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm-1 2h2v5h5v2h-5v7h-2v-7H6v-2h5V7Z',
   // My Packages: Tetap Ticket
+  teachers: 'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z',
+  events: 'M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.722L17.25 12l-1.009-3.278a1.875 1.875 0 00-1.213-1.213L11.75 6.5l3.278-1.009a1.875 1.875 0 001.213-1.213L17.25 1l1.009 3.278a1.875 1.875 0 001.213 1.213L22.75 6.5l-3.278 1.009a1.875 1.875 0 00-1.213 1.213z',
+  // Ikon Rooms (Studio / Layout)
+  rooms: 'M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0h-10.5',
   // User Icons
   profile: 'M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z',
   packages: 'M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z', // Ticket
@@ -44,10 +48,13 @@ const icons = {
 const adminLinks = [
   { name: 'Manage Pricing', path: '/admin/manage-pricing', icon: icons.pricing },
   { name: 'Manage Classes', path: '/admin/manage-classes', icon: icons.classes },
+  { name: 'Manage Teachers', path: '/admin/manage-teachers', icon: icons.teachers },
+  { name: 'Manage Rooms', path: '/admin/manage-rooms', icon: icons.rooms },
+  { name: 'Manage Events', path: '/admin/manage-events', icon: icons.events },
 ]
 
 const userLinks = [
-  { name: 'My Profile', path: '/profile', icon: icons.profile },
+  { name: 'Profile', path: '/profile', icon: icons.profile },
   { name: 'My Packages', path: '/my-packages', icon: icons.packages },
   { name: 'My Schedule', path: '/my-schedule', icon: icons.schedule },
 ]
