@@ -173,8 +173,8 @@ const handleLogout = () => {
                 </svg>
                 {{ link.name }}
               </NuxtLink>
-              <div class="h-px bg-pink-50 my-1.5 mx-2"></div>
-              <button @click="handleLogout" class="group w-full flex items-center gap-3 px-4 py-3 text-sm rounded-xl text-red-500 hover:bg-red-50 transition-all font-bold text-left">
+              <div class="h-px bg-pink-50 my-1.5 mx-2"/>
+              <button class="group w-full flex items-center gap-3 px-4 py-3 text-sm rounded-xl text-red-500 hover:bg-red-50 transition-all font-bold text-left" @click="handleLogout">
                 <svg class="w-5 h-5 text-red-400 group-hover:text-red-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" :d="icons.logout" />
                 </svg>
@@ -187,9 +187,9 @@ const handleLogout = () => {
 
       <button class="md:hidden z-50 relative w-10 h-10 flex items-center justify-center text-white focus:outline-none" @click="isMobileMenuOpen = !isMobileMenuOpen">
         <div class="w-6 h-5 relative flex flex-col justify-between">
-          <span class="w-full h-0.5 bg-white rounded-full transition-all duration-300 origin-left" :class="isMobileMenuOpen ? 'rotate-45 translate-x-0.5' : ''"></span>
-          <span class="w-full h-0.5 bg-white rounded-full transition-all duration-300" :class="isMobileMenuOpen ? 'opacity-0' : 'opacity-100'"></span>
-          <span class="w-full h-0.5 bg-white rounded-full transition-all duration-300 origin-left" :class="isMobileMenuOpen ? '-rotate-45 translate-x-0.5' : ''"></span>
+          <span class="w-full h-0.5 bg-white rounded-full transition-all duration-300 origin-left" :class="isMobileMenuOpen ? 'rotate-45 translate-x-0.5' : ''"/>
+          <span class="w-full h-0.5 bg-white rounded-full transition-all duration-300" :class="isMobileMenuOpen ? 'opacity-0' : 'opacity-100'"/>
+          <span class="w-full h-0.5 bg-white rounded-full transition-all duration-300 origin-left" :class="isMobileMenuOpen ? '-rotate-45 translate-x-0.5' : ''"/>
         </div>
       </button>
 
@@ -235,7 +235,7 @@ const handleLogout = () => {
                   <p class="text-xs text-green-500 font-medium">● Online</p>
                </div>
             </div>
-            <button @click="handleLogout" class="px-4 py-2 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg transition">Logout</button>
+            <button class="px-4 py-2 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg transition" @click="handleLogout">Logout</button>
           </div>
         </div>
       </div>
