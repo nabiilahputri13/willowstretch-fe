@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth'
 
-// Interface sesuai Model Django 'Package'
 interface PricingPackage {
   id?: number
   name: string
@@ -12,7 +11,6 @@ interface PricingPackage {
   is_active: boolean
 }
 
-// Interface error handling
 interface FetchError {
   data?: {
     error?: string
@@ -28,7 +26,6 @@ const showModal = ref(false)
 const isEditing = ref(false)
 const errorMessage = ref('')
 
-// Default State Form
 const form = ref<PricingPackage>({
   name: '',
   description: '',
@@ -38,7 +35,6 @@ const form = ref<PricingPackage>({
   is_active: true
 })
 
-// --- FETCH DATA ---
 const fetchPackages = async () => {
   loading.value = true
   try {
@@ -47,14 +43,12 @@ const fetchPackages = async () => {
     })
     packages.value = data
   } catch {
-    // Silent error / alert optional
     alert('Gagal mengambil data paket.')
   } finally {
     loading.value = false
   }
 }
 
-// --- MODAL HANDLERS ---
 const openAddModal = () => {
   isEditing.value = false
   errorMessage.value = ''
@@ -72,11 +66,10 @@ const openAddModal = () => {
 const openEditModal = (item: PricingPackage) => {
   isEditing.value = true
   errorMessage.value = ''
-  form.value = { ...item } // Copy object
+  form.value = { ...item } 
   showModal.value = true
 }
 
-// --- CRUD ACTIONS ---
 const savePackage = async () => {
   loading.value = true
   errorMessage.value = ''
@@ -103,7 +96,6 @@ const savePackage = async () => {
   }
 }
 
-// --- HELPERS ---
 const formatRupiah = (price: number) => {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
@@ -171,7 +163,7 @@ onMounted(() => {
                     </span>
                   </div>
                 </td>
-                <td class="p-4 w-1/12">
+                <td class="p-4 w-1/8">
                   <span v-if="item.is_active" class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-bold">Aktif</span>
                   <span v-else class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-bold">Non-aktif</span>
                 </td>

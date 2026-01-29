@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth'
 
+// 1. Tambahkan is_active di interface agar TypeScript tau field ini ada
 interface PricingPackage {
   id: number
   name: string
@@ -8,9 +9,9 @@ interface PricingPackage {
   price: number
   credits: number
   duration_days: number
+  is_active?: boolean // <--- TAMBAHAN PENTING
 }
 
-// Interface error handling biar rapi
 interface FetchError {
   data?: {
     error?: string
@@ -38,19 +39,20 @@ const fetchPackages = async () => {
   }
 }
 
+// 2. LOGIC FILTER: Hanya tampilkan yang is_active === true
 const sortedPackages = computed(() => {
-  return [...packages.value].sort((a, b) => a.price - b.price)
+  return packages.value
+    .filter(pkg => pkg.is_active !== false) // Filter: Ambil yang aktif saja
+    .sort((a, b) => a.price - b.price) // Baru di-sort berdasarkan harga
 })
 
 // --- ACTIONS ---
 const handleBuy = async (pkg: PricingPackage) => {
-  // 1. Cek Login: Kalau belum, langsung lempar ke Login
   if (!authStore.isAuthenticated) {
     router.push('/login')
     return
   }
 
-  // 2. Kalau sudah login, lanjut proses beli
   if (!confirm(`Beli paket "${pkg.name}" seharga ${formatRupiah(pkg.price)}?`)) return
 
   processingId.value = pkg.id
@@ -70,7 +72,6 @@ const handleBuy = async (pkg: PricingPackage) => {
   }
 }
 
-// --- HELPER ---
 const formatRupiah = (price: number) => {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
@@ -110,8 +111,7 @@ onMounted(() => {
           :key="pkg.id" 
           class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-pink-100 flex flex-col relative overflow-hidden group h-full"
         >
-          <!-- <div class="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110"/> -->
-<div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-400 to-orange-300 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110 opacity-30"/>
+          <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-400 to-orange-300 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110 opacity-30"/>
 
           <div class="relative z-10 flex-1">
             <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ pkg.name }}</h3>

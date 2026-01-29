@@ -70,10 +70,17 @@ const { data: rawClasses, pending: loading, refresh } = await useFetch<RawYogaCl
 const schedules = computed<UiYogaClass[]>(() => {
   if (!rawClasses.value) return []
 
+  const now = new Date()
+
   return rawClasses.value
     .filter((cls) => {
       const clsDate = new Date(cls.start_at) 
-      return isSameDay(clsDate, selectedDate.value)
+      
+      const isCorrectDate = isSameDay(clsDate, selectedDate.value)
+
+      const isNotExpired = !isBefore(clsDate, now)
+
+      return isCorrectDate && isNotExpired
     })
     .sort((a, b) => new Date(a.start_at).getTime() - new Date(b.start_at).getTime())
     .map((cls) => {
@@ -116,7 +123,6 @@ const handleBook = async (cls: UiYogaClass) => {
     })
     alert('Booking berhasil! ✨')
     refresh()
-  // FIX 2: Ganti catch(e: any) dengan unknown + casting
   } catch (err: unknown) {
     const error = err as FetchError
     alert(error.data?.error || 'Gagal join kelas.')
@@ -125,9 +131,6 @@ const handleBook = async (cls: UiYogaClass) => {
   }
 }
 
-/* ========================
-   DATE LOGIC
-======================== */
 const weekDates = computed(() => {
   return Array.from({ length: 7 }).map((_, i) => addDays(viewStart.value, i))
 })
@@ -295,7 +298,6 @@ const isDateDisabled = (date: Date) => isBefore(date, today)
           :key="cls.id"
           class="bg-white rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-pink-100 relative overflow-hidden group"
         >
-          <!-- <div class="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110 opacity-50 md:opacity-100"/> -->
 <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-400 to-orange-300 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110 opacity-30"/>
 
           <div class="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
