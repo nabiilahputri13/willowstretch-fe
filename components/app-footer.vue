@@ -42,19 +42,19 @@
         </div>
 
         <div class="hidden md:block">
-          <h5 class="text-[10px] font-black uppercase tracking-[0.4em] text-pink-400 mb-10">The Studios</h5>
+          <h5 class="text-[10px] font-black uppercase tracking-[0.4em] text-pink-400 mb-10">The Shalas</h5>
           <ul class="space-y-5 text-sm font-bold text-gray-400">
-            <li class="hover:text-white cursor-pointer transition-all">Jakarta Selatan</li>
-            <li class="hover:text-white cursor-pointer transition-all">Menteng Central</li>
-            <li class="hover:text-white cursor-pointer transition-all">BSD Sanctuary</li>
+            <li class="hover:text-white cursor-pointer transition-all">Moon Studio</li>
+            <li class="hover:text-white cursor-pointer transition-all">Sun Room</li>
+            <li class="hover:text-white cursor-pointer transition-all">Garden Area</li>
           </ul>
         </div>
 
         <div class="hidden md:block">
           <h5 class="text-[10px] font-black uppercase tracking-[0.4em] text-pink-400 mb-10">Stay In Touch</h5>
           <div class="space-y-6">
-            <p class="text-sm font-black text-white underline decoration-pink-500/30 underline-offset-8">hello@willowstretch.com</p>
-            <p class="text-xs font-bold text-gray-500 leading-loose">Jl. Kemang Raya No. 12<br>Jakarta Selatan, 12730</p>
+            <p class="text-sm font-black text-white underline decoration-pink-500/30 underline-offset-8">willowstretch@gmail.com</p>
+            <p class="text-xs font-bold text-gray-500 leading-loose">Jl. Kebayoran Lama No. 12<br>Jakarta Selatan, 12730</p>
             
             <button class="w-full py-4 bg-gradient-to-r from-pink-500 to-orange-400 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-pink-500/20 hover:scale-[1.02] active:scale-95 transition-all">
               Contact Us

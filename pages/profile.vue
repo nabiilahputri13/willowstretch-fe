@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth'
 
-// DEFINISI INTERFACE (Fix error ESLint @typescript-eslint/no-explicit-any)
 interface Subscription {
   id: number
   package_name: string
@@ -21,7 +20,6 @@ interface JoinedClass {
 const authStore = useAuthStore()
 const config = useRuntimeConfig()
 
-// 1. Fetch Subscriptions (Paket) - Pakai type <Subscription[]>
 const { data: subs, pending: pendingSubs } = await useFetch<Subscription[]>(
   () => `${config.public.apiBase}pricing/my-subscriptions/`, 
   {
@@ -31,7 +29,6 @@ const { data: subs, pending: pendingSubs } = await useFetch<Subscription[]>(
   }
 )
 
-// 2. Fetch Joined Classes (Jadwal) - Pakai type <JoinedClass[]>
 const { data: myClasses, pending: pendingClasses } = await useFetch<JoinedClass[]>(
   () => `${config.public.apiBase}classes/me/?status=upcoming`, 
   {
